@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const BookList = () => {
   const [books, setBook] = useState([]);
 
   useEffect(() => {
-    // getBooks();
-    getBooksByCategory();
+    getBooks();
+    // getBooksByCategory();
   }, []);
 
   const getBooks = async () => {
@@ -38,9 +39,11 @@ const BookList = () => {
   return (
     <div className="columns mt-5 text-center text-lg">
       <div className="relative overflow-x-auto">
-        <Link to={``} className="button btn-success">
-          Add
-        </Link>
+        {Cookies.get("token") && (
+          <Link to={`/books/add`} className="button btn-success">
+            Add
+          </Link>
+        )}
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>

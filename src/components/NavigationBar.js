@@ -1,8 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Navbar } from "flowbite-react";
+import Cookies from "js-cookie";
 
 const NavigationBar = () => {
+  let navigate = useNavigate();
+  const logout = () => {
+    navigate("/login");
+    Cookies.remove("token");
+    Cookies.remove("user");
+  };
+
   return (
     <div className="w-11/12 mx-auto">
       <Navbar fluid={true} rounded={true}>
@@ -34,23 +42,26 @@ const NavigationBar = () => {
                   Categories
                 </Link>
               </li>
-              <li className="mr-2">
-                <Link
-                  to="/login"
-                  className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-                >
-                  Login
-                </Link>
-              </li>
-
-              <li className="mr-2">
-                <Link
-                  to="/register"
-                  className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-                >
-                  Register
-                </Link>
-              </li>
+              {Cookies.get("token") && (
+                <li className="mr-2">
+                  <span
+                    onClick={logout}
+                    className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                  >
+                    Logout
+                  </span>
+                </li>
+              )}
+              {!Cookies.get("token") && (
+                <li className="mr-2">
+                  <Link
+                    to="/login"
+                    className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                  >
+                    Login
+                  </Link>
+                </li>
+              )}
             </ul>
           </Navbar.Collapse>
         </div>

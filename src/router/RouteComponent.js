@@ -7,23 +7,22 @@ import CategoryList from "../components/CategoryList";
 import AddCategory from "../components/AddCategory";
 import EditCategory from "../components/EditCategory";
 import LayoutLanding from "../widgets/LayoutLanding";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import Cookies from "js-cookie";
 
 const RouteComponent = () => {
+  const LoginRoute = (props) => {
+    if (Cookies.get("token") === undefined) {
+      return props.children;
+    } else if (Cookies.get("token") !== undefined) {
+      return <Navigate to="/" />;
+    }
+  };
+
   return (
     <>
       <BrowserRouter>
-        {/* <GlobalProvider>
-          <Routes>
-            <Routes
-              path="/"
-              element={
-                <LayoutLanding>
-                  <Home />
-                </LayoutLanding>
-              }
-            />
-          </Routes>
-        </GlobalProvider> */}
         <Routes>
           <Route path="/" element={<LayoutLanding />} />
           <Route
@@ -34,11 +33,64 @@ const RouteComponent = () => {
               </LayoutLanding>
             }
           />
-          <Route path="/books" element={<AddBook />} />
-          <Route path="/books/:id" element={<EditBook />} />
-          <Route path="/categories" element={<CategoryList />} />
-          <Route path="/categories" element={<AddCategory />} />
-          <Route path="/categories/:id" element={<EditCategory />} />
+          <Route
+            path="/books/add"
+            element={
+              <LayoutLanding>
+                <AddBook />
+              </LayoutLanding>
+            }
+          />
+          <Route
+            path="/books/:id"
+            element={
+              <LayoutLanding>
+                <EditBook />
+              </LayoutLanding>
+            }
+          />
+          <Route
+            path="/categories"
+            element={
+              <LayoutLanding>
+                <CategoryList />
+              </LayoutLanding>
+            }
+          />
+          <Route
+            path="/categories/add"
+            element={
+              <LayoutLanding>
+                <AddCategory />
+              </LayoutLanding>
+            }
+          />
+          <Route
+            path="/categories/:id"
+            element={
+              <LayoutLanding>
+                <EditCategory />
+              </LayoutLanding>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <LoginRoute>
+                <LayoutLanding>
+                  <Login />
+                </LayoutLanding>
+              </LoginRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <LayoutLanding>
+                <Register />
+              </LayoutLanding>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>

@@ -6,6 +6,10 @@ const AddBook = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [releaseYear, setReleaseYear] = useState("");
+  const [price, setPrice] = useState("");
+  const [totalPage, setTotalPage] = useState("");
+  const [thickness, setThickness] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const navigate = useNavigate();
 
@@ -16,6 +20,10 @@ const AddBook = () => {
         title,
         description,
         imageUrl,
+        releaseYear,
+        price,
+        totalPage,
+        thickness,
         categoryId,
       });
       navigate("/books");
@@ -61,6 +69,56 @@ const AddBook = () => {
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
                 placeholder="Image URL"
+              />
+            </div>
+          </div>
+          <div className="field">
+            <label className="label">Release Year</label>
+            <div className="control">
+              <input
+                type="number"
+                className="input"
+                value={releaseYear}
+                onChange={(e) => setReleaseYear(e.target.value)}
+                min="1980"
+                max="2021"
+                placeholder="Release Year"
+              />
+            </div>
+          </div>
+          <div className="field">
+            <label className="label">Price</label>
+            <div className="control">
+              <input
+                type="text"
+                className="input"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                placeholder="Price"
+              />
+            </div>
+          </div>
+          <div className="field">
+            <label className="label">Total Page</label>
+            <div className="control">
+              <input
+                type="number"
+                className="input"
+                value={totalPage}
+                onChange={(e) => setTotalPage(e.target.value)}
+                placeholder="total_page"
+              />
+            </div>
+          </div>
+          <div className="field">
+            <label className="label">Thickness</label>
+            <div className="control">
+              <input
+                type="text"
+                className="input"
+                value={thickness}
+                onChange={(e) => setThickness(e.target.value)}
+                placeholder="thickness"
               />
             </div>
           </div>
