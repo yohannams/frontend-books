@@ -9,22 +9,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   let navigate = useNavigate();
 
-  //   const LoginRoute = (props) => {
-  //     if (Cookies.get("token") === undefined) {
-  //       return props.children;
-  //     } else if (Cookies.get("token") !== undefined) {
-  //       return <Navigate to={"/"} />;
-  //     }
-  //   };
-
-  // const DashboardRoute = (props) => {
-  //     if(Cookies.get('token') === undefined){
-  //         return <Navigate to={'/'}/>
-  //     }else if(Cookies.get('token') !== undefined){
-  //         return props.children;
-  //     }
-  // }
-
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -57,7 +41,7 @@ const Login = () => {
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Login to your account
+                Login
               </h1>
               <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
                 <div>

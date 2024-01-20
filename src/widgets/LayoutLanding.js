@@ -5,7 +5,8 @@ import NavigationBar from "../components/NavigationBar";
 const LayoutLanding = (props) => {
   return (
     <>
-      <div className="container mx-auto w-11/12">
+      {/* <div className="container mx-auto w-11/12"> */}
+      <div className="">
         <NavigationBar />
         <div>{props.children}</div>
         <Footer />

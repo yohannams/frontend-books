@@ -2,14 +2,15 @@ import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import BookList from "../components/BookList";
 import AddBook from "../components/AddBook";
-import EditBook from "../components/EditBook";
+import UpdateBook from "../components/UpdateBook";
 import CategoryList from "../components/CategoryList";
 import AddCategory from "../components/AddCategory";
-import EditCategory from "../components/EditCategory";
+import UpdateCategory from "../components/UpdateCategory";
 import LayoutLanding from "../widgets/LayoutLanding";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Cookies from "js-cookie";
+import Home from "../pages/Home";
 
 const RouteComponent = () => {
   const LoginRoute = (props) => {
@@ -24,7 +25,14 @@ const RouteComponent = () => {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LayoutLanding />} />
+          <Route
+            path="/"
+            element={
+              <LayoutLanding>
+                <Home />
+              </LayoutLanding>
+            }
+          />
           <Route
             path="/books"
             element={
@@ -45,7 +53,7 @@ const RouteComponent = () => {
             path="/books/:id"
             element={
               <LayoutLanding>
-                <EditBook />
+                <UpdateBook />
               </LayoutLanding>
             }
           />
@@ -69,7 +77,7 @@ const RouteComponent = () => {
             path="/categories/:id"
             element={
               <LayoutLanding>
-                <EditCategory />
+                <UpdateCategory />
               </LayoutLanding>
             }
           />

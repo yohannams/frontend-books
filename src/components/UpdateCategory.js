@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AddCategory = () => {
+const UpdateCategory = () => {
   const [name, setName] = useState("");
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  const saveCategory = async (e) => {
+  useEffect(() => {
+    getCategoryById();
+  }, []);
+
+  const updateCategory = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/categories", {
+      await axios.patch(`http://localhost:5000/categories/${id}`, {
         name,
       });
       navigate("/categories");
@@ -18,18 +23,21 @@ const AddCategory = () => {
     }
   };
 
+  const getCategoryById = async () => {
+    const response = await axios.get(`http://localhost:5000/categories/${id}`);
+    setName(response.data.name);
+  };
+
   return (
     <div className="container flex flex-col items-center justify-center px-6 py-8 mx-autolg:py-0 -top-4">
-      <div className="bg-slate-50 rounded-lg shadow dark:border md:mt-0 sm:w-1/2 xl:p-0 dark:bg-slate-800 dark:border-gray-700">
+      <div className=" bg-slate-50 rounded-lg shadow dark:border md:mt-0 sm:w-1/2 xl:p-0 dark:bg-slate-800 dark:border-gray-700">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Add Category
+            Update Category
           </h1>
-          <form onSubmit={saveCategory}>
+          <form onSubmit={updateCategory}>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Name
-              </label>
+              <label className="label">Name</label>
               <div className="control">
                 <input
                   type="text"
@@ -40,7 +48,8 @@ const AddCategory = () => {
                 />
               </div>
             </div>
-            <div className="field">
+
+            <div className="mb-4">
               <button
                 type="submit"
                 className="mt-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -55,4 +64,4 @@ const AddCategory = () => {
   );
 };
 
-export default AddCategory;
+export default UpdateCategory;
