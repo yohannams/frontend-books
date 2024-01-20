@@ -2,34 +2,22 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const BookList = () => {
-  const [books, setBook] = useState([]);
+const CategoryList = () => {
+  const [categories, setCategory] = useState([]);
 
   useEffect(() => {
-    // getBooks();
-    getBooksByCategory();
+    getCategories();
   }, []);
 
-  const getBooks = async () => {
-    const response = await axios.get("http://localhost:5000/books");
-    setBook(response.data);
+  const getCategories = async () => {
+    const response = await axios.get("http://localhost:5000/categories");
+    setCategory(response.data);
   };
 
-  const getBooksByCategory = async (e) => {
-    // e.preventDefault();
-
+  const deleteCategory = async (id) => {
     try {
-      const response = await axios.get("http://localhost:5000/books", "1");
-      setBook(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const deleteBook = async (id) => {
-    try {
-      await axios.delete(`http://localhost:5000/books/${id}`);
-      getBooks();
+      await axios.delete(`http://localhost:5000/categories/${id}`);
+      getCategories();
     } catch (error) {
       console.log(error);
     }
@@ -48,39 +36,28 @@ const BookList = () => {
                 No
               </th>
               <th scope="col" className="px-6 py-3">
-                Title
+                Name
               </th>
-              <th scope="col" className="px-6 py-3">
-                Description
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Image URL
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Category
-              </th>
+
               <th scope="col" className="px-6 py-3">
                 Action
               </th>
             </tr>
           </thead>
           <tbody>
-            {books.map((book, index) => (
-              <tr key={book.id}>
+            {categories.map((category, index) => (
+              <tr key={category.id}>
                 <td>{index + 1}</td>
-                <td>{book.title}</td>
-                <td>{book.description}</td>
-                <td>{book.image_url}</td>
-                <td>{book.category_id}</td>
+                <td>{category.name}</td>
                 <td>
                   <Link
-                    to={`/books/${book.id}`}
+                    to={`/categories/${category.id}`}
                     className="button is-small is-info mr-2"
                   >
                     Edit
                   </Link>
                   <button
-                    onClick={() => deleteBook(book.id)}
+                    onClick={() => deleteCategory(category.id)}
                     className="button is-small is-danger"
                   >
                     Delete
@@ -95,4 +72,4 @@ const BookList = () => {
   );
 };
 
-export default BookList;
+export default CategoryList;
