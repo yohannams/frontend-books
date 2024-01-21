@@ -11,6 +11,7 @@ import AddBook from "../pages/AddBook";
 import CategoryList from "../pages/CategoryList";
 import UpdateCategory from "../pages/UpdateCategory";
 import AddCategory from "../pages/AddCategory";
+import { GlobalProvider } from "../context/GlobalContext";
 
 const RouteComponent = () => {
   const LoginRoute = (props) => {
@@ -24,82 +25,84 @@ const RouteComponent = () => {
   return (
     <>
       <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <LayoutLanding>
-                <Home />
-              </LayoutLanding>
-            }
-          />
-          <Route
-            path="/books"
-            element={
-              <LayoutLanding>
-                <BookList />
-              </LayoutLanding>
-            }
-          />
-          <Route
-            path="/books/add"
-            element={
-              <LayoutLanding>
-                <AddBook />
-              </LayoutLanding>
-            }
-          />
-          <Route
-            path="/books/:id"
-            element={
-              <LayoutLanding>
-                <UpdateBook />
-              </LayoutLanding>
-            }
-          />
-          <Route
-            path="/categories"
-            element={
-              <LayoutLanding>
-                <CategoryList />
-              </LayoutLanding>
-            }
-          />
-          <Route
-            path="/categories/add"
-            element={
-              <LayoutLanding>
-                <AddCategory />
-              </LayoutLanding>
-            }
-          />
-          <Route
-            path="/categories/:id"
-            element={
-              <LayoutLanding>
-                <UpdateCategory />
-              </LayoutLanding>
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <LoginRoute>
+        <GlobalProvider>
+          <Routes>
+            <Route
+              path="/"
+              element={
                 <LayoutLanding>
-                  <Login />
+                  <Home />
                 </LayoutLanding>
-              </LoginRoute>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <LayoutLanding>
-                <Register />
-              </LayoutLanding>
-            }
-          />
-        </Routes>
+              }
+            />
+            <Route
+              path="/books"
+              element={
+                <LayoutLanding>
+                  <BookList />
+                </LayoutLanding>
+              }
+            />
+            <Route
+              path="/books/add"
+              element={
+                <LayoutLanding>
+                  <AddBook />
+                </LayoutLanding>
+              }
+            />
+            <Route
+              path="/books/:id"
+              element={
+                <LayoutLanding>
+                  <UpdateBook />
+                </LayoutLanding>
+              }
+            />
+            <Route
+              path="/categories"
+              element={
+                <LayoutLanding>
+                  <CategoryList />
+                </LayoutLanding>
+              }
+            />
+            <Route
+              path="/categories/add"
+              element={
+                <LayoutLanding>
+                  <AddCategory />
+                </LayoutLanding>
+              }
+            />
+            <Route
+              path="/categories/:id"
+              element={
+                <LayoutLanding>
+                  <UpdateCategory />
+                </LayoutLanding>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <LoginRoute>
+                  <LayoutLanding>
+                    <Login />
+                  </LayoutLanding>
+                </LoginRoute>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <LayoutLanding>
+                  <Register />
+                </LayoutLanding>
+              }
+            />
+          </Routes>
+        </GlobalProvider>
       </BrowserRouter>
     </>
   );

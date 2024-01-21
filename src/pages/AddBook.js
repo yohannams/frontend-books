@@ -1,58 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { GlobalContext } from "../context/GlobalContext";
+import { useParams } from "react-router-dom";
 
 const AddBook = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [releaseYear, setReleaseYear] = useState("");
-  const [price, setPrice] = useState("");
-  const [totalPage, setTotalPage] = useState("");
-  const [thickness, setThickness] = useState("");
-  const [categoryId, setCategoryId] = useState("");
+  let { IdData } = useParams();
+  const { state, handleFunction } = useContext(GlobalContext);
+  const { input, setInput } = state;
   const [categories, setCategory] = useState([]);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    getCategories();
-  }, []);
+  const { handleSubmit, handleChange } = handleFunction;
 
   const getCategories = async () => {
     const response = await axios.get("http://localhost:5000/categories");
     setCategory(response.data);
   };
 
-  const saveBook = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post("http://localhost:5000/books", {
-        title,
-        description,
-        imageUrl,
-        releaseYear,
-        price,
-        totalPage,
-        thickness,
-        categoryId,
-      });
-      navigate("/books");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    getCategories();
 
-  const parseTotalPage = (totalPage) => {
-    if (totalPage <= 100) {
-      setThickness("tipis");
-    } else if (totalPage >= 101 && totalPage <= 200) {
-      setThickness("sedang");
-    } else if (totalPage >= 201) {
-      setThickness("tebal");
-    } else {
-      setThickness("");
-    }
-  };
+    setInput({
+      title: "",
+      description: "",
+      image_url: "",
+      release_year: "",
+      price: "",
+      total_page: 0,
+      thickness: "",
+      category_id: "",
+    });
+  }, []);
 
   return (
     <div className="container flex flex-col items-center justify-center px-6 py-8 mx-autolg:py-0 -top-4">
@@ -61,7 +37,7 @@ const AddBook = () => {
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Add Book
           </h1>
-          <form onSubmit={saveBook}>
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 Title
@@ -70,8 +46,9 @@ const AddBook = () => {
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  value={input.title}
+                  onChange={handleChange}
+                  name="title"
                   placeholder="Title"
                 />
               </div>
@@ -84,9 +61,10 @@ const AddBook = () => {
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  value={input.description}
+                  onChange={handleChange}
                   placeholder="Description"
+                  name="description"
                 />
               </div>
             </div>
@@ -98,9 +76,10 @@ const AddBook = () => {
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
+                  value={input.image_url}
+                  onChange={handleChange}
                   placeholder="Image URL"
+                  name="image_url"
                 />
               </div>
             </div>
@@ -112,10 +91,11 @@ const AddBook = () => {
                 <input
                   type="number"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={releaseYear}
-                  onChange={(e) => setReleaseYear(e.target.value)}
+                  value={input.release_year}
+                  onChange={handleChange}
                   min="1980"
                   max="2021"
+                  name="release_year"
                   placeholder="Release Year"
                 />
               </div>
@@ -128,9 +108,10 @@ const AddBook = () => {
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
+                  value={input.price}
+                  onChange={handleChange}
                   placeholder="Price"
+                  name="price"
                 />
               </div>
             </div>
@@ -142,9 +123,10 @@ const AddBook = () => {
                 <input
                   type="number"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={totalPage}
-                  onChange={(e) => setTotalPage(e.target.value)}
+                  value={input.total_page}
+                  onChange={handleChange}
                   placeholder="Total Page"
+                  name="total_page"
                 />
               </div>
             </div>
@@ -156,15 +138,10 @@ const AddBook = () => {
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={thickness}
-                  onChange={(e) => {
-                    setThickness(e.target.value);
-                  }}
-                  onBlur={(e) => {
-                    parseTotalPage(e.target.value);
-                  }}
+                  value={input.thickness}
+                  onChange={handleChange}
                   placeholder="Thickness"
-                  readOnly
+                  name="thickness"
                 />
               </div>
             </div>
@@ -175,12 +152,15 @@ const AddBook = () => {
               <div className="control">
                 <div className="select is-fullwidth">
                   <select
-                    value={categoryId}
-                    onChange={(e) => setCategoryId(e.target.value)}
+                    value={input.category_id}
+                    onChange={handleChange}
+                    name="category_id"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   >
-                    {categories.map((category, index) => (
-                      <option value={category.id}>{category.name}</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
                     ))}
                   </select>
                 </div>

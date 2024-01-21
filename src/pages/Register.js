@@ -20,7 +20,6 @@ const Register = () => {
           name,
         })
         .then((res) => {
-          console.log(res);
           alert("User registration success");
           navigate("/login");
         })

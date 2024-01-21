@@ -19,7 +19,6 @@ const Login = () => {
           password,
         })
         .then((res) => {
-          console.log(res);
           let data = res.data;
           Cookies.set("token", data.token, { expires: 1 });
           Cookies.set("user", JSON.stringify(data.user), { expires: 1 });

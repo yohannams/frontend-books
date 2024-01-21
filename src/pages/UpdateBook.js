@@ -1,60 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { GlobalContext } from "../context/GlobalContext";
+import { useParams } from "react-router-dom";
 
 const UpdateBook = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [releaseYear, setReleaseYear] = useState("");
-  const [price, setPrice] = useState("");
-  const [totalPage, setTotalPage] = useState("");
-  const [thickness, setThickness] = useState("");
-  const [categoryId, setCategoryId] = useState("");
+  let { IdData } = useParams();
+  const { state, handleFunction, currentId } = useContext(GlobalContext);
+  const { input, setInput } = state;
   const [categories, setCategory] = useState([]);
-  const navigate = useNavigate();
-  const { id } = useParams();
 
-  useEffect(() => {
-    getCategories();
-    getBookById();
-  }, []);
+  const { handleSubmit, handleChange } = handleFunction;
 
   const getCategories = async () => {
     const response = await axios.get("http://localhost:5000/categories");
     setCategory(response.data);
   };
 
-  const updateBook = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.patch(`http://localhost:5000/books/${id}`, {
-        title,
-        description,
-        imageUrl,
-        releaseYear,
-        price,
-        totalPage,
-        thickness,
-        categoryId,
-      });
-      navigate("/books");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    console.log("upd");
+    console.log(currentId);
+    getCategories();
 
-  const getBookById = async () => {
-    const response = await axios.get(`http://localhost:5000/books/${id}`);
-    setTitle(response.data.title);
-    setDescription(response.data.description);
-    setImageUrl(response.data.image_url);
-    setReleaseYear(response.data.release_year);
-    setPrice(response.data.price);
-    setTotalPage(response.data.total_page);
-    setThickness(response.data.thickness);
-    setCategoryId(response.data.categoryId);
-  };
+    axios
+      .get(`http://localhost:5000/books/${IdData}`)
+      .then((res) => {
+        let result = res.data;
+        setInput({
+          title: result.title,
+          description: result.description,
+          image_url: result.image_url,
+          release_year: result.release_year,
+          price: result.price,
+          total_page: result.total_page,
+          thickness: result.thickness,
+          category_id: result.category_id,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <div className="container flex flex-col items-center justify-center px-6 py-8 mx-autolg:py-0 -top-4">
@@ -63,15 +48,16 @@ const UpdateBook = () => {
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Update Book
           </h1>
-          <form onSubmit={updateBook}>
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="label">Title</label>
               <div className="control">
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  value={input.title}
+                  onChange={handleChange}
+                  name="title"
                   placeholder="Title"
                 />
               </div>
@@ -84,9 +70,10 @@ const UpdateBook = () => {
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  value={input.description}
+                  onChange={handleChange}
                   placeholder="Description"
+                  name="description"
                 />
               </div>
             </div>
@@ -98,9 +85,10 @@ const UpdateBook = () => {
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
+                  value={input.image_url}
+                  onChange={handleChange}
                   placeholder="Image URL"
+                  name="image_url"
                 />
               </div>
             </div>
@@ -112,10 +100,11 @@ const UpdateBook = () => {
                 <input
                   type="number"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={releaseYear}
-                  onChange={(e) => setReleaseYear(e.target.value)}
+                  value={input.release_year}
+                  onChange={handleChange}
                   min="1980"
                   max="2021"
+                  name="release_year"
                   placeholder="Release Year"
                 />
               </div>
@@ -128,9 +117,10 @@ const UpdateBook = () => {
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
+                  value={input.price}
+                  onChange={handleChange}
                   placeholder="Price"
+                  name="price"
                 />
               </div>
             </div>
@@ -142,9 +132,10 @@ const UpdateBook = () => {
                 <input
                   type="number"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={totalPage}
-                  onChange={(e) => setTotalPage(e.target.value)}
+                  value={input.total_page}
+                  onChange={handleChange}
                   placeholder="Total Page"
+                  name="total_page"
                 />
               </div>
             </div>
@@ -156,10 +147,10 @@ const UpdateBook = () => {
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={thickness}
-                  onChange={(e) => setThickness(e.target.value)}
+                  value={input.thickness}
+                  onChange={handleChange}
                   placeholder="Thickness"
-                  readOnly
+                  name="thickness"
                 />
               </div>
             </div>
@@ -170,12 +161,15 @@ const UpdateBook = () => {
               <div className="control">
                 <div className="select is-fullwidth">
                   <select
-                    value={categoryId}
-                    onChange={(e) => setCategoryId(e.target.value)}
+                    value={input.category_id}
+                    onChange={handleChange}
+                    name="category_id"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   >
                     {categories.map((category, index) => (
-                      <option value={category.id}>{category.name}</option>
+                      <option value={category.id} key={category.id}>
+                        {category.name}
+                      </option>
                     ))}
                   </select>
                 </div>
