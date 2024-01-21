@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { GlobalContext } from "../context/GlobalContext";
-import { useParams } from "react-router-dom";
 
 const AddBook = () => {
-  let { IdData } = useParams();
   const { state, handleFunction } = useContext(GlobalContext);
   const { input, setInput } = state;
   const [categories, setCategory] = useState([]);
@@ -16,8 +14,6 @@ const AddBook = () => {
   };
 
   useEffect(() => {
-    getCategories();
-
     setInput({
       title: "",
       description: "",
@@ -28,6 +24,8 @@ const AddBook = () => {
       thickness: "",
       category_id: "",
     });
+
+    getCategories();
   }, []);
 
   return (

@@ -27,9 +27,7 @@ export const GlobalProvider = (props) => {
     password: "",
   });
   const [fetchStatus, setFetchStatus] = useState(true);
-  const [fetchStatusCategory, setFetchStatusCategory] = useState(true);
   const [currentId, setCurrentId] = useState(-1);
-  const [currentIdCategory, setCurrentIdCategory] = useState(-1);
 
   const handleChange = (event) => {
     let name = event.target.name;
@@ -66,41 +64,44 @@ export const GlobalProvider = (props) => {
     let { thickness } = input;
     let { category_id } = input;
 
-    if (currentId === -1) {
-      axios
-        .post("http://localhost:5000/books", {
-          title,
-          description,
-          image_url,
-          release_year,
-          price,
-          total_page,
-          thickness,
-          category_id,
-        })
-        .then((res) => {
-          setFetchStatus(true);
-          navigate("/books");
-        })
-        .catch((err) => {});
-    } else {
-      axios
-        .put(`http://localhost:5000/books/${currentId}`, {
-          title,
-          description,
-          image_url,
-          release_year,
-          price,
-          total_page,
-          thickness,
-          category_id,
-        })
-        .then((res) => {
-          setFetchStatus(true);
-          navigate("/books");
-        })
-        .catch((err) => {});
-    }
+    // if (currentId === -1) {
+    axios
+      .post("http://localhost:5000/books", {
+        title,
+        description,
+        image_url,
+        release_year,
+        price,
+        total_page,
+        thickness,
+        category_id,
+      })
+      .then((res) => {
+        setFetchStatus(true);
+        navigate("/books");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // } else {
+    //   axios
+    //     .put(`http://localhost:5000/books/${currentId}`, {
+    //       title,
+    //       description,
+    //       image_url,
+    //       release_year,
+    //       price,
+    //       total_page,
+    //       thickness,
+    //       category_id,
+    //     })
+    //     .then((res) => {
+    //       setFetchStatus(true);
+    //       navigate("/books");
+    //     })
+    //     .catch((err) => {});
+    // }
 
     setInput({
       title: "",
