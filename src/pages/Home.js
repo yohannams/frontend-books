@@ -1,5 +1,5 @@
-import BookList from "../components/BookList";
-import CategoryList from "../components/CategoryList";
+import BookList from "./BookList";
+import CategoryList from "./CategoryList";
 
 const Home = () => {
   return (

@@ -1,16 +1,16 @@
 import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import BookList from "../components/BookList";
-import AddBook from "../components/AddBook";
-import UpdateBook from "../components/UpdateBook";
-import CategoryList from "../components/CategoryList";
-import AddCategory from "../components/AddCategory";
-import UpdateCategory from "../components/UpdateCategory";
 import LayoutLanding from "../widgets/LayoutLanding";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Cookies from "js-cookie";
 import Home from "../pages/Home";
+import UpdateBook from "../pages/UpdateBook";
+import BookList from "../pages/BookList";
+import AddBook from "../pages/AddBook";
+import CategoryList from "../pages/CategoryList";
+import UpdateCategory from "../pages/UpdateCategory";
+import AddCategory from "../pages/AddCategory";
 
 const RouteComponent = () => {
   const LoginRoute = (props) => {
