@@ -1,32 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
+import { GlobalContext } from "../context/GlobalContext";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const UpdateCategory = () => {
-  const [name, setName] = useState("");
-  const navigate = useNavigate();
-  const { id } = useParams();
+  let { id } = useParams();
+  const { state, handleFunction } = useContext(GlobalContext);
+  const { input, setInput } = state;
+  const { handleSubmit, handleChange } = handleFunction;
 
   useEffect(() => {
-    getCategoryById();
-  }, []);
-
-  const updateCategory = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.patch(`http://localhost:5000/categories/${id}`, {
-        name,
+    axios
+      .get(`http://localhost:5000/categories/${id}`)
+      .then((res) => {
+        let result = res.data;
+        setInput({
+          name: result.name,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
       });
-      navigate("/categories");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getCategoryById = async () => {
-    const response = await axios.get(`http://localhost:5000/categories/${id}`);
-    setName(response.data.name);
-  };
+  }, []);
 
   return (
     <div className="container flex flex-col items-center justify-center px-6 py-8 mx-autolg:py-0 -top-4">
@@ -35,15 +30,16 @@ const UpdateCategory = () => {
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Update Category
           </h1>
-          <form onSubmit={updateCategory}>
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="label">Name</label>
               <div className="control">
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={input.name}
+                  name="name"
+                  onChange={handleChange}
                   placeholder="Name"
                 />
               </div>

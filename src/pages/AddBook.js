@@ -4,27 +4,15 @@ import { GlobalContext } from "../context/GlobalContext";
 
 const AddBook = () => {
   const { state, handleFunction } = useContext(GlobalContext);
-  const { input, setInput } = state;
-  const [categories, setCategory] = useState([]);
-  const { handleSubmit, handleChange } = handleFunction;
+  const { inputBook, setInputBook, data, setData } = state;
+  const { handleSubmitBook, handleChangeBook } = handleFunction;
 
   const getCategories = async () => {
     const response = await axios.get("http://localhost:5000/categories");
-    setCategory(response.data);
+    setData(response.data);
   };
 
   useEffect(() => {
-    setInput({
-      title: "",
-      description: "",
-      image_url: "",
-      release_year: "",
-      price: "",
-      total_page: 0,
-      thickness: "",
-      category_id: "",
-    });
-
     getCategories();
   }, []);
 
@@ -35,7 +23,7 @@ const AddBook = () => {
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Add Book
           </h1>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmitBook}>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 Title
@@ -44,8 +32,8 @@ const AddBook = () => {
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={input.title}
-                  onChange={handleChange}
+                  value={inputBook.title}
+                  onChange={handleChangeBook}
                   name="title"
                   placeholder="Title"
                 />
@@ -59,8 +47,8 @@ const AddBook = () => {
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={input.description}
-                  onChange={handleChange}
+                  value={inputBook.description}
+                  onChange={handleChangeBook}
                   placeholder="Description"
                   name="description"
                 />
@@ -74,8 +62,8 @@ const AddBook = () => {
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={input.image_url}
-                  onChange={handleChange}
+                  value={inputBook.image_url}
+                  onChange={handleChangeBook}
                   placeholder="Image URL"
                   name="image_url"
                 />
@@ -89,8 +77,8 @@ const AddBook = () => {
                 <input
                   type="number"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={input.release_year}
-                  onChange={handleChange}
+                  value={inputBook.release_year}
+                  onChange={handleChangeBook}
                   min="1980"
                   max="2021"
                   name="release_year"
@@ -106,8 +94,8 @@ const AddBook = () => {
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={input.price}
-                  onChange={handleChange}
+                  value={inputBook.price}
+                  onChange={handleChangeBook}
                   placeholder="Price"
                   name="price"
                 />
@@ -121,8 +109,8 @@ const AddBook = () => {
                 <input
                   type="number"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={input.total_page}
-                  onChange={handleChange}
+                  value={inputBook.total_page}
+                  onChange={handleChangeBook}
                   placeholder="Total Page"
                   name="total_page"
                 />
@@ -136,8 +124,8 @@ const AddBook = () => {
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={input.thickness}
-                  onChange={handleChange}
+                  value={inputBook.thickness}
+                  onChange={handleChangeBook}
                   placeholder="Thickness"
                   name="thickness"
                 />
@@ -150,16 +138,17 @@ const AddBook = () => {
               <div className="control">
                 <div className="select is-fullwidth">
                   <select
-                    value={input.category_id}
-                    onChange={handleChange}
+                    value={inputBook.category_id}
+                    onChange={handleChangeBook}
                     name="category_id"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   >
-                    {categories.map((category) => (
-                      <option key={category.id} value={category.id}>
-                        {category.name}
-                      </option>
-                    ))}
+                    {data &&
+                      data.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))}
                   </select>
                 </div>
               </div>

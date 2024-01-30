@@ -1,22 +1,10 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { GlobalContext } from "../context/GlobalContext";
 
 const AddCategory = () => {
-  const [name, setName] = useState("");
-  const navigate = useNavigate();
-
-  const saveCategory = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post("http://localhost:5000/categories", {
-        name,
-      });
-      navigate("/categories");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { state, handleFunction } = useContext(GlobalContext);
+  const { input, setInput } = state;
+  const { handleSubmit, handleChange } = handleFunction;
 
   return (
     <div className="container flex flex-col items-center justify-center px-6 py-8 mx-autolg:py-0 -top-4">
@@ -25,7 +13,7 @@ const AddCategory = () => {
           <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Add Category
           </h1>
-          <form onSubmit={saveCategory}>
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 Name
@@ -34,8 +22,9 @@ const AddCategory = () => {
                 <input
                   type="text"
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  value={input.name}
+                  onChange={handleChange}
+                  name="name"
                   placeholder="Name"
                 />
               </div>

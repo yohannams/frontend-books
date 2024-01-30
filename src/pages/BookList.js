@@ -6,15 +6,15 @@ import { GlobalContext } from "../context/GlobalContext";
 
 const BookList = () => {
   const { state, handleFunction } = useContext(GlobalContext);
-  const { data, fetchStatus, setFetchStatus } = state;
+  const { books, fetchStatusBook, setFetchStatusBook } = state;
 
-  const { fetchData, handleDelete, handleEdit } = handleFunction;
+  const { fetchDataBook, handleDeleteBook, handleEditBook } = handleFunction;
 
   useEffect(() => {
-    if (fetchStatus === true) {
-      fetchData();
+    if (fetchStatusBook === true) {
+      fetchDataBook();
     }
-  }, [fetchStatus, setFetchStatus, fetchData]);
+  }, [fetchStatusBook, setFetchStatusBook, fetchDataBook]);
 
   //   const deleteBook = async (id) => {
   //     try {
@@ -52,8 +52,8 @@ const BookList = () => {
       </div>
       <div className="flex w-1/2 mx-auto">
         <section className="bg-gray-50 dark:bg-gray-900 py-4 col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
-          {data !== null &&
-            data.map((book, index) => {
+          {books !== null &&
+            books.map((book, index) => {
               return (
                 <div
                   key={book.id}
@@ -140,7 +140,7 @@ const BookList = () => {
                       {/* update */}
                       {Cookies.get("token") && (
                         <button
-                          onClick={() => handleEdit(book.id)}
+                          onClick={() => handleEditBook(book.id)}
                           value={book.id}
                           className="text-gray-900 bg-gray-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-2 py-2 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                         >
@@ -163,7 +163,7 @@ const BookList = () => {
                       {/* delete */}
                       {Cookies.get("token") && (
                         <Link
-                          onClick={() => handleDelete(book.id)}
+                          onClick={() => handleDeleteBook(book.id)}
                           value={book.id}
                           className="text-gray-900 bg-gray-100 border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-2 py-2 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                         >
