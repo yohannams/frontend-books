@@ -138,11 +138,14 @@ const AddBook = () => {
               <div className="control">
                 <div className="select is-fullwidth">
                   <select
-                    value={inputBook.category_id}
+                    value={inputBook.category_id || ""}
                     onChange={handleChangeBook}
                     name="category_id"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   >
+                    <option value="" disabled>
+                      Select a category
+                    </option>
                     {data &&
                       data.map((category) => (
                         <option key={category.id} value={category.id}>

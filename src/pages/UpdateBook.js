@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 const UpdateBook = () => {
   let { id } = useParams();
   const { state, handleFunction } = useContext(GlobalContext);
-  const { inputBook, setInputBook, data, setData } = state;
+  const { inputBook, setInputBook, data, setData, currentIdBook } = state;
   const { handleSubmitBook, handleChangeBook } = handleFunction;
 
   const getCategories = async () => {
@@ -157,11 +157,14 @@ const UpdateBook = () => {
               <div className="control">
                 <div className="select is-fullwidth">
                   <select
-                    value={inputBook.category_id}
+                    value={inputBook.category_id || ""}
                     onChange={handleChangeBook}
                     name="category_id"
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   >
+                    <option value="" disabled>
+                      Select a category
+                    </option>
                     {data &&
                       data.map((category, index) => (
                         <option value={category.id} key={category.id}>

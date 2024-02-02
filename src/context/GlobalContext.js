@@ -53,8 +53,10 @@ export const GlobalProvider = (props) => {
       setInputBook({ ...inputBook, total_page: value });
     } else if (name === "thickness") {
       setInputBook({ ...inputBook, thickness: value });
+      console.log(inputBook);
     } else if (name === "category_id") {
       setInputBook({ ...inputBook, category_id: value });
+      console.log(inputBook);
     }
   };
 
@@ -105,7 +107,7 @@ export const GlobalProvider = (props) => {
     let { thickness } = inputBook;
     let { category_id } = inputBook;
 
-    if (currentId === -1) {
+    if (currentIdBook === -1) {
       axios
         .post("http://localhost:5000/books", {
           title,
@@ -162,6 +164,7 @@ export const GlobalProvider = (props) => {
   };
 
   const handleEditBook = (id) => {
+    console.log(id);
     setCurrentIdBook(id);
     navigate(`/books/${id}`);
   };
@@ -178,6 +181,7 @@ export const GlobalProvider = (props) => {
   };
 
   const handleDeleteBook = (id) => {
+    console.log(id);
     axios
       .delete(`http://localhost:5000/books/${id}`)
       .then((res) => {
