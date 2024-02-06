@@ -164,7 +164,6 @@ export const GlobalProvider = (props) => {
   };
 
   const handleEditBook = (id) => {
-    console.log(id);
     setCurrentIdBook(id);
     navigate(`/books/${id}`);
   };
