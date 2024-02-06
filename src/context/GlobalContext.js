@@ -208,6 +208,7 @@ export const GlobalProvider = (props) => {
     axios
       .get("http://localhost:5000/books")
       .then((res) => {
+        console.log(res);
         setBooks(res.data);
       })
       .catch((error) => {

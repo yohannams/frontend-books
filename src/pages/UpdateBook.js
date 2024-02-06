@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 const UpdateBook = () => {
   let { id } = useParams();
   const { state, handleFunction } = useContext(GlobalContext);
-  const { inputBook, setInputBook, data, setData, currentIdBook } = state;
+  const { inputBook, setInputBook, data, setData } = state;
   const { handleSubmitBook, handleChangeBook } = handleFunction;
 
   const getCategories = async () => {

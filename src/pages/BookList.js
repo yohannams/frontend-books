@@ -124,7 +124,7 @@ const BookList = () => {
                       </label>
                     </div>
                     <label className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                      {book.category_id}
+                      {book.category.name}
                     </label>
                     <div className="flex mt-1 space-x-3 md:mt-3">
                       {/* update */}
